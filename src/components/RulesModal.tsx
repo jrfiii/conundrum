@@ -24,6 +24,7 @@ const rulesObj: { [key: string]: string } = {
   "/letters": "Placeholder for the rules of the Letters Game",
   "/numbers": "Placeholder for the rules of the Numbers Game",
   "/finale": "Placeholder for the rules of the Finale Conundrum",
+  "/": "Placeholder for the over-arching introduction to Conundrum",
 };
 
 const RulesModal = ({
@@ -31,6 +32,8 @@ const RulesModal = ({
   handleRulesModalToggle,
   pathname,
 }: RulesModalProps) => {
+  const sectionName = pathname === '/' ? 'Conundrum' : pathname[1].toUpperCase() + pathname.slice(2);
+
   return (
     <Modal
       open={rulesModalOpen}
@@ -40,7 +43,7 @@ const RulesModal = ({
     >
       <Box sx={style}>
         <Typography id="rules-modal-title" variant="h6" component="h2">
-          {`${pathname[1].toUpperCase()}${pathname.slice(2)} Game Rules`}
+          {`${sectionName} Game Rules`}
         </Typography>
         <Typography id="rules-modal-description" sx={{ mt: 2 }}>
           {rulesObj[pathname]}
