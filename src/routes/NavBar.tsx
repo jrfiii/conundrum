@@ -32,17 +32,27 @@ const NavBar: React.FC = (props: Props) => {
   const { pathname } = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [rulesModalOpen, setRulesModalOpen] = useState(false);
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen((prevState) => !prevState);
+  const handleToggle = (
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => {
+    setState((prevState) => !prevState);
   };
 
-  const handleRulesModalToggle = () => {
-    setRulesModalOpen((prevState) => !prevState);
-  };
+  // const handleDrawerToggle = () => {
+  //   setDrawerOpen((prevState) => !prevState);
+  // };
+
+  // const handleRulesModalToggle = () => {
+  //   setRulesModalOpen((prevState) => !prevState);
+  // };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box
+      onClick={() => handleToggle(setDrawerOpen)}
+      sx={{ textAlign: "center" }}
+    >
       <ListItemButton
         onClick={() => navigate("/")}
         sx={{ justifyContent: "center" }}
@@ -79,7 +89,7 @@ const NavBar: React.FC = (props: Props) => {
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
+            onClick={() => handleToggle(setDrawerOpen)}
           >
             <MenuIcon />
           </IconButton>
@@ -92,15 +102,19 @@ const NavBar: React.FC = (props: Props) => {
           </Typography>
           {pathname !== "/about" && (
             <Box>
-              <Button sx={{ color: "#fff" }} onClick={handleRulesModalToggle}>
+              <Button
+                sx={{ color: "#fff" }}
+                onClick={() => handleToggle(setRulesModalOpen)}
+              >
                 <QuestionMarkIcon
                   color="inherit"
                   aria-label="open rules modal"
                 />
               </Button>
-              <Button sx={{ color: "#fff" }}>
-                {/** Eventually set up onClick event handler
-                 *  to use URL params to display settings modal */}
+              <Button
+                sx={{ color: "#fff" }}
+                onClick={() => handleToggle(setSettingsModalOpen)}
+              >
                 <SettingsIcon
                   color="inherit"
                   aria-label="open settings modal"
@@ -115,7 +129,7 @@ const NavBar: React.FC = (props: Props) => {
         <Drawer
           container={container}
           open={drawerOpen}
-          onClose={handleDrawerToggle}
+          onClose={() => handleToggle(setDrawerOpen)}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
@@ -133,11 +147,14 @@ const NavBar: React.FC = (props: Props) => {
       <Box component="main" sx={{ p: 3 }}>
         <Outlet />
       </Box>
-      <RulesModal
-        handleRulesModalToggle={handleRulesModalToggle}
-        rulesModalOpen={rulesModalOpen}
-        pathname={pathname}
-      />
+
+      {pathname !== "/about" && (
+        <RulesModal
+          handleRulesModalToggle={() => handleToggle(setRulesModalOpen)}
+          rulesModalOpen={rulesModalOpen}
+          pathname={pathname}
+        />
+      )}
     </Box>
   );
 };
