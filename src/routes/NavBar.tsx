@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 
 import RulesModal from "../components/RulesModal";
+import SettingsModal from "../components/SettingsModal";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -39,14 +40,6 @@ const NavBar: React.FC = (props: Props) => {
   ) => {
     setState((prevState) => !prevState);
   };
-
-  // const handleDrawerToggle = () => {
-  //   setDrawerOpen((prevState) => !prevState);
-  // };
-
-  // const handleRulesModalToggle = () => {
-  //   setRulesModalOpen((prevState) => !prevState);
-  // };
 
   const drawer = (
     <Box
@@ -149,11 +142,17 @@ const NavBar: React.FC = (props: Props) => {
       </Box>
 
       {pathname !== "/about" && (
-        <RulesModal
-          handleRulesModalToggle={() => handleToggle(setRulesModalOpen)}
-          rulesModalOpen={rulesModalOpen}
-          pathname={pathname}
-        />
+        <>
+          <RulesModal
+            handleRulesModalToggle={() => handleToggle(setRulesModalOpen)}
+            rulesModalOpen={rulesModalOpen}
+            pathname={pathname}
+          />
+          <SettingsModal
+            handleSettingsModalToggle={() => handleToggle(setSettingsModalOpen)}
+            settingsModalOpen={settingsModalOpen}
+          />
+        </>
       )}
     </Box>
   );
