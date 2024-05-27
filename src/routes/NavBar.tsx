@@ -35,11 +35,31 @@ const NavBar: React.FC = (props: Props) => {
   const [rulesModalOpen, setRulesModalOpen] = useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
+  const [timerBool, setTimerBool] = useState(true);
+  const [timerSeconds, setTimerSeconds] = useState(30);
+
   const handleToggle = (
     setState: React.Dispatch<React.SetStateAction<boolean>>,
   ) => {
     setState((prevState) => !prevState);
   };
+
+  const handleTimerSlider = (event: Event, value: number | number[], activeThumb: number) => {
+    setTimerSeconds(value as number);
+  }
+
+  const handleTimerInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTimerSeconds(event.target.value === '' ? 0 : Number(event.target.value));
+  };
+
+  const handleTimerBlur = (value: number) => {
+    if (value < 0) {
+      setTimerSeconds(0);
+    } else if (value > 90) {
+      setTimerSeconds(90);
+    }
+  };
+
 
   const drawer = (
     <Box
@@ -151,6 +171,12 @@ const NavBar: React.FC = (props: Props) => {
           <SettingsModal
             handleSettingsModalToggle={() => handleToggle(setSettingsModalOpen)}
             settingsModalOpen={settingsModalOpen}
+            timerBool={timerBool}
+            handleTimerToggle={() => handleToggle(setTimerBool)}
+            timerSeconds={timerSeconds}
+            handleTimerSlider={handleTimerSlider}
+            handleTimerInput={handleTimerInput}
+            handleTimerBlur={handleTimerBlur}
           />
         </>
       )}
