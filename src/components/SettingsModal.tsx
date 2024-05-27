@@ -60,7 +60,12 @@ const SettingsModal = ({
       aria-describedby={`Settings for Conundrum game`}
     >
       <Box sx={style}>
-        <Typography id="settings-modal-title" variant="h6" component="h2">
+        <Typography
+          id="settings-modal-title"
+          variant="h6"
+          component="h2"
+          gutterBottom
+        >
           Settings
         </Typography>
         <FormControl component="fieldset">
@@ -76,9 +81,7 @@ const SettingsModal = ({
           </FormGroup>
         </FormControl>
 
-        <Typography id="input-slider" gutterBottom>
-          Timer Length in Seconds
-        </Typography>
+        <Typography id="input-slider">Seconds:</Typography>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
             <TimerIcon />

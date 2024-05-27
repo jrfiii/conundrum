@@ -44,12 +44,17 @@ const NavBar: React.FC = (props: Props) => {
     setState((prevState) => !prevState);
   };
 
-  const handleTimerSlider = (event: Event, value: number | number[], activeThumb: number) => {
+  const handleTimerSlider = (
+    _event: Event,
+    value: number | number[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _activeThumb: number,
+  ) => {
     setTimerSeconds(value as number);
-  }
+  };
 
   const handleTimerInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTimerSeconds(event.target.value === '' ? 0 : Number(event.target.value));
+    setTimerSeconds(event.target.value === "" ? 0 : Number(event.target.value));
   };
 
   const handleTimerBlur = (value: number) => {
@@ -59,7 +64,6 @@ const NavBar: React.FC = (props: Props) => {
       setTimerSeconds(90);
     }
   };
-
 
   const drawer = (
     <Box
