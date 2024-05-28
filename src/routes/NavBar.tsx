@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
+
+import RulesModal from "../components/RulesModal";
+import SettingsModal from "../components/SettingsModal";
 
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -27,14 +30,46 @@ const navItems = ["letters", "numbers", "finale", "about"];
 const NavBar: React.FC = (props: Props) => {
   const { window } = props;
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const { pathname } = useLocation();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [rulesModalOpen, setRulesModalOpen] = useState(false);
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
+  const [timerBool, setTimerBool] = useState(true);
+  const [timerSeconds, setTimerSeconds] = useState(30);
+
+  const handleToggle = (
+    setState: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => {
+    setState((prevState) => !prevState);
+  };
+
+  const handleTimerSlider = (
+    _event: Event,
+    value: number | number[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _activeThumb: number,
+  ) => {
+    setTimerSeconds(value as number);
+  };
+
+  const handleTimerInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTimerSeconds(event.target.value === "" ? 0 : Number(event.target.value));
+  };
+
+  const handleTimerBlur = (value: number) => {
+    if (value < 0) {
+      setTimerSeconds(0);
+    } else if (value > 90) {
+      setTimerSeconds(90);
+    }
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box
+      onClick={() => handleToggle(setDrawerOpen)}
+      sx={{ textAlign: "center" }}
+    >
       <ListItemButton
         onClick={() => navigate("/")}
         sx={{ justifyContent: "center" }}
@@ -71,7 +106,7 @@ const NavBar: React.FC = (props: Props) => {
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
+            onClick={() => handleToggle(setDrawerOpen)}
           >
             <MenuIcon />
           </IconButton>
@@ -82,26 +117,36 @@ const NavBar: React.FC = (props: Props) => {
           >
             Conundrum
           </Typography>
-          <Box>
-            <Button sx={{ color: "#fff" }}>
-              {/** Eventually set up onClick event handler
-               *  to use URL params to display rules modal */}
-              <QuestionMarkIcon color="inherit" aria-label="open rules modal" />
-            </Button>
-            <Button sx={{ color: "#fff" }}>
-              {/** Eventually set up onClick event handler
-               *  to use URL params to display settings modal */}
-              <SettingsIcon color="inherit" aria-label="open settings modal" />
-            </Button>
-          </Box>
+          {pathname !== "/about" && (
+            <Box>
+              <Button
+                sx={{ color: "#fff" }}
+                onClick={() => handleToggle(setRulesModalOpen)}
+              >
+                <QuestionMarkIcon
+                  color="inherit"
+                  aria-label="open rules modal"
+                />
+              </Button>
+              <Button
+                sx={{ color: "#fff" }}
+                onClick={() => handleToggle(setSettingsModalOpen)}
+              >
+                <SettingsIcon
+                  color="inherit"
+                  aria-label="open settings modal"
+                />
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
 
       <nav>
         <Drawer
           container={container}
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
+          open={drawerOpen}
+          onClose={() => handleToggle(setDrawerOpen)}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
@@ -119,6 +164,26 @@ const NavBar: React.FC = (props: Props) => {
       <Box component="main" sx={{ p: 3 }}>
         <Outlet />
       </Box>
+
+      {pathname !== "/about" && (
+        <>
+          <RulesModal
+            handleRulesModalToggle={() => handleToggle(setRulesModalOpen)}
+            rulesModalOpen={rulesModalOpen}
+            pathname={pathname}
+          />
+          <SettingsModal
+            handleSettingsModalToggle={() => handleToggle(setSettingsModalOpen)}
+            settingsModalOpen={settingsModalOpen}
+            timerBool={timerBool}
+            handleTimerToggle={() => handleToggle(setTimerBool)}
+            timerSeconds={timerSeconds}
+            handleTimerSlider={handleTimerSlider}
+            handleTimerInput={handleTimerInput}
+            handleTimerBlur={handleTimerBlur}
+          />
+        </>
+      )}
     </Box>
   );
 };
