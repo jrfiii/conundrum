@@ -7,7 +7,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "90%",
+  maxWidth: 400,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -32,7 +33,10 @@ const RulesModal = ({
   handleRulesModalToggle,
   pathname,
 }: RulesModalProps) => {
-  const sectionName = pathname === '/' ? 'Conundrum' : pathname[1].toUpperCase() + pathname.slice(2);
+  const sectionName =
+    pathname === "/"
+      ? "Conundrum"
+      : pathname[1].toUpperCase() + pathname.slice(2);
 
   return (
     <Modal
@@ -42,7 +46,12 @@ const RulesModal = ({
       aria-describedby={`Rules for ${pathname.slice(1)} game`}
     >
       <Box sx={style}>
-        <Typography id="rules-modal-title" variant="h6" component="h2">
+        <Typography
+          sx={{ fontWeight: "800", textDecorationLine: "underline" }}
+          id="rules-modal-title"
+          variant="h6"
+          component="h2"
+        >
           {`${sectionName} Game Rules`}
         </Typography>
         <Typography id="rules-modal-description" sx={{ mt: 2 }}>

@@ -17,7 +17,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "90%",
+  maxWidth: 400,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -64,27 +65,27 @@ const SettingsModal = ({
           id="settings-modal-title"
           variant="h6"
           component="h2"
+          sx={{ fontWeight: "800", textDecorationLine: "underline" }}
           gutterBottom
         >
           Settings
         </Typography>
-        <FormControl component="fieldset">
-          <FormGroup aria-label="position" row>
-            <FormControlLabel
-              value="start"
-              control={
-                <Switch checked={timerBool} onChange={handleTimerToggle} />
-              }
-              label="Timer"
-              labelPlacement="start"
-            />
-          </FormGroup>
-        </FormControl>
 
-        <Typography id="input-slider">Seconds:</Typography>
+        <Typography id="input-slider">Timer:</Typography>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
-            <TimerIcon />
+            <FormControl component="fieldset">
+              <FormGroup row>
+                <FormControlLabel
+                  value="start"
+                  control={
+                    <Switch checked={timerBool} onChange={handleTimerToggle} />
+                  }
+                  label={<TimerIcon />}
+                  labelPlacement="start"
+                />
+              </FormGroup>
+            </FormControl>
           </Grid>
           <Grid item xs>
             <Slider
@@ -108,7 +109,7 @@ const SettingsModal = ({
                 onChange={handleTimerInput}
                 onBlur={() => handleTimerBlur(timerSeconds)}
                 inputProps={{
-                  step: 1,
+                  step: 5,
                   min: 0,
                   max: 90,
                   type: "number",
@@ -116,6 +117,7 @@ const SettingsModal = ({
                 }}
               />
             )}
+            <Typography sx={{ fontSize: "10px" }}>Seconds</Typography>
           </Grid>
         </Grid>
       </Box>
