@@ -1,44 +1,28 @@
-import { useState, useEffect, useCallback } from "react";
-import testWord from "../assets/testWords";
-import shuffle from "../utils/shuffle";
-import "../App.css";
+import {} from "react";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
-import reactLogo from "../assets/react.svg";
-import viteLogo from "/vite.svg";
+import RenderTime from "../components/RenderTime";
 
 function App() {
-  const conundrum = testWord;
-  const [scramble, setScramble] = useState("");
-
-  const shuffleConundrum = useCallback(
-    (): void => setScramble(shuffle(conundrum)),
-    [conundrum],
-  );
-
-  useEffect(() => {
-    shuffleConundrum();
-  }, [shuffleConundrum]);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="timer-wrapper">
+        <CountdownCircleTimer
+          isPlaying
+          duration={10}
+          colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+          colorsTime={[10, 6, 3, 0]}
+          onComplete={() => {
+            return {
+              shouldRepeat: true,
+              delay: 1,
+            };
+          }}
+        >
+          {RenderTime}
+        </CountdownCircleTimer>
       </div>
-
       <h1>Conundrum</h1>
-      <div className="card">
-        <p>{scramble.toUpperCase().split("").join(" ")}</p>
-        <button onClick={() => shuffleConundrum()}>re-scramble</button>
-      </div>
-
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
