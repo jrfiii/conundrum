@@ -6,6 +6,7 @@ import "./index.css";
 import About from "./routes/About.tsx";
 import App from "./routes/App.tsx";
 import Finale from "./routes/Finale.tsx";
+import Letters from "./routes/Letters.tsx";
 import NavBar from "./routes/NavBar.tsx";
 import ErrorPage from "./error-page";
 
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/letters",
-        element: <div>Placeholder for Letters game</div>,
+        element: <Letters />,
       },
       {
         path: "/numbers",
