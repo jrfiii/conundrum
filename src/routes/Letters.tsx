@@ -1,28 +1,35 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import generate9Letters from "../utils/generate9LetterWord";
-// import { Reorder } from "framer-motion";
+import ReorderScramble from "../components/ReorderScramble";
 
-// import { Reorder } from "framer-motion";
+/**
+ * The rules of Countdown state that you have to pick at least four consonants and
+ * at least three vowels. Your first seven picks should be CCCCVVV in some order
+ */
 
 function Letters() {
   const [nineLetters, set9Letters] = useState("");
-  const letterArray = useRef<string[]>();
+  const [letterArray, setLetterArray] = useState<string[]>();
 
-  const selectLetters = useCallback((letterOrder: string): void => {
-    const letters: string = generate9Letters(letterOrder);
-    set9Letters(letters);
-    letterArray.current = [...letters];
-  }, []);
+  const selectLetters = useCallback(
+    (letterOrder: string): void => {
+      const letters: string = generate9Letters(letterOrder);
+      set9Letters(letters);
+      setLetterArray(letters.split(""));
+    },
+    [letterArray],
+  );
 
   // Testing  'CCVCCVCCV' or 'VVVCCCCCC'
   return (
     <>
       <h1>Letters Round</h1>
       <div>nineLetters: {nineLetters}</div>
-      <div>letterArray: </div>
+      <div>letterArray: {letterArray}</div>
       <button onClick={() => selectLetters("CCVCCVCCV")}>
         Testing CCVCCVCCV
       </button>
+      <ReorderScramble />
     </>
   );
 }
