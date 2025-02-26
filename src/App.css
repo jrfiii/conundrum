@@ -102,6 +102,11 @@
   color: #000;
 }
 
+.placeholder {
+  font-size: 9px;
+  text-align: center;
+}
+
 .tile::after {
   content: attr(data-score);
   position: absolute;
