@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import testWord from "../assets/testWords";
 import shuffle from "../utils/shuffle";
+import ReorderScramble from "../components/ReorderScramble";
 
 function Finale() {
   const conundrum = testWord;
@@ -20,7 +21,8 @@ function Finale() {
       <h1>Conundrum</h1>
 
       <div className="card">
-        <p>{scramble.toUpperCase().split("").join(" ")}</p>
+        {/* <p>{scramble.toUpperCase().split("").join(" ")}</p> */}
+        <ReorderScramble letterArray={scramble.toUpperCase().split('')} />
         <button onClick={() => shuffleConundrum()}>re-scramble</button>
       </div>
 
