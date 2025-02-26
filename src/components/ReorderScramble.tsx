@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { Reorder } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 
@@ -17,23 +17,26 @@ const ReorderScramble = ({ letterArray }: Props) => {
   // setLetterArray(letters.split("").map((ltr: string) => ({value: ltr, id: uuidv4()})));
 
   useEffect(() => {
-    const ltrObjArr = letterArray?.map((ltr: string): LtrObj => ({
-      value: ltr,
-      id: uuidv4(),
-    }));
+    const ltrObjArr = letterArray?.map(
+      (ltr: string): LtrObj => ({
+        value: ltr,
+        id: uuidv4(),
+      }),
+    );
     setTestArr(ltrObjArr);
   }, [letterArray]);
 
   return (
     <>
       {testArr ? (
-        <Reorder.Group values={testArr} onReorder={setTestArr}>
-          {testArr?.map((val) => (
-            <Reorder.Item key={val.id} value={val}>
-              <div>{`${val.value} - ${val.id}`} type: {typeof val.id}</div>
-            </Reorder.Item>
-          ))}
-        </Reorder.Group>
+          <Reorder.Group className="board" axis="x" values={testArr} onReorder={setTestArr}>
+            {testArr?.map((val) => (
+              <Reorder.Item className="tile" key={val.id} value={val}>
+                  {/* {`${val.value} - ${val.id}`} type: {typeof val.id} */}
+                  {val.value}
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
       ) : (
         <div></div>
       )}
